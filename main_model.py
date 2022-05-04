@@ -71,7 +71,6 @@ class ModelLR:
 
     def prediction(self):
         self.lin_reg.fit(self.x_train_, self.y_train_)
-        features_names = self.df.columns
         y_predict = self.lin_reg.predict(self.x_val)
         self.cross_validation()
         self.val_validation(y_predict)
@@ -135,5 +134,6 @@ ModelLR().data_modification()
 #
 # args = parser.parse_args()
 # model = ModelLR(args.train, args.test, args.target, args.sub).data_modification()
-# python C:\\Users\\Админ\\PycharmProjects\\Model\\main_model.py --train="Train.csv" --test="Test.csv" --target="Target.csv" --sub="Submission.csv"
+# python C:\\Users\\Админ\\PycharmProjects\\Model\\main_model.py --train="Train.csv" --test="Test.csv"
+# --target="Target.csv" --sub="Submission.csv"
 # python main_model.py --train="Train.csv" --test="Test.csv" --target="Target.csv" --sub="Submission
