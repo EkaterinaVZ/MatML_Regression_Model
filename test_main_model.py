@@ -36,7 +36,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(
             np.array_equal(
                 pd.DataFrame(self.model.df_cv_linreg.mean()[2:]).sort_index(
-                    inplace = True
+                    inplace=True
                 ),
                 pd.DataFrame(
                     ["0.327251", " -0.00710", "-0.046105", "-0.508162"],
@@ -46,7 +46,7 @@ class MyTestCase(unittest.TestCase):
         )
 
     def test_get_regularization(self):
-        self.assertEqual("%.1f" % self.model.ms, "0.1")
+        self.assertEqual("%.1f" % self.model.ms, "0.0")
         self.assertEqual("%.1f" % self.model.rm, "0.1")
         self.assertEqual("%.4f" % self.model.r2, "0.4171")
 
