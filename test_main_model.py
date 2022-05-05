@@ -30,7 +30,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(len(self.model.x_train_), 1854)
         self.assertEqual(len(self.model.x_val), 464)
         self.assertEqual(len(self.model.y_train_), 1854)
-        self.assertEqual(len(self.model.y_val), 463)
+        self.assertEqual(len(self.model.y_val), 464)
 
     def test_cross_validation(self):
         self.assertTrue(
@@ -46,7 +46,7 @@ class MyTestCase(unittest.TestCase):
                 )
 
     def test_get_regularization(self):
-        self.assertEqual("%.1f" % self.model.ms, "0.2")
+        self.assertEqual("%.1f" % self.model.ms, "0.1")
         self.assertEqual("%.1f" % self.model.rm, "0.1")
         self.assertEqual("%.4f" % self.model.r2, "0.4171")
 
