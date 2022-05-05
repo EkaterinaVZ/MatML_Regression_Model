@@ -12,12 +12,14 @@ from sklearn.model_selection import train_test_split
 
 
 class ModelLR:
-    def __init__(self,
-                 train="Train.csv",
-                 test="Test.csv",
-                 target="Target.csv",
-                 sub="Submission.csv",
-                 show_correlation=False):
+    def __init__(
+            self,
+            train="Train.csv",
+            test="Test.csv",
+            target="Target.csv",
+            sub="Submission.csv",
+            show_correlation=False,
+    ):
 
         self.train = pd.read_csv(train, delimiter=",")
         self.test = pd.read_csv(test, delimiter=",")
@@ -62,14 +64,15 @@ class ModelLR:
 
     def breakdown_data(self):
         self.count_columns()
-        train = self.df.iloc[0:self.train.shape[0], :]
+        train = self.df.iloc[0: self.train.shape[0], :]
         test = self.df.iloc[self.train.shape[0]:, :]
 
         x_train = train[self.num_columns].values
         self.x_test = test[self.num_columns].values
         y_train = self.target["polution"].values
-        self.x_train_, self.x_val, self.y_train_, self.y_val = \
-            train_test_split(x_train, y_train, test_size=0.2, random_state=42)
+        self.x_train_, self.x_val, self.y_train_, self.y_val = train_test_split(
+            x_train, y_train, test_size=0.2, random_state=42
+        )
         self.prediction()
 
     def prediction(self):
@@ -80,13 +83,20 @@ class ModelLR:
         self.get_regularization(y_predict)
 
     def cross_validation(self):
-        scoring = {"R2": "r2",
-                   "-MSE": "neg_mean_squared_error",
-                   "-MAE": "neg_mean_absolute_error",
-                   "Max": "max_error"}
+        scoring = {
+            "R2": "r2",
+            "-MSE": "neg_mean_squared_error",
+            "-MAE": "neg_mean_absolute_error",
+            "Max": "max_error",
+        }
 
-        scores = cross_validate(self.lin_reg, self.x_train_, self.y_train_,
-                                scoring=scoring, cv=ShuffleSplit(n_splits=5, random_state=42))
+        scores = cross_validate(
+            self.lin_reg,
+            self.x_train_,
+            self.y_train_,
+            scoring=scoring,
+            cv=ShuffleSplit(n_splits=5, random_state=42),
+        )
         self.df_cv_linreg = pd.DataFrame(scores)
         print(self.df_cv_linreg)
         print("Результаты Кросс-валидации")
