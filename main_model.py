@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error as mse
@@ -29,6 +30,8 @@ class ModelLR:
         self.lin_reg = LinearRegression(fit_intercept=True)
         self.x_train_, self.y_train_, self.x_val, self.y_val = None, None, None, None
         self.x_test, self.y_test = None, None
+        self.df_cv_linreg = None
+        self.ms, self.rm, self.r2 = None, None, None
 
     def data_modification(self):
         print('start!!!')
@@ -84,29 +87,34 @@ class ModelLR:
 
         scores = cross_validate(self.lin_reg, self.x_train_, self.y_train_,
                                 scoring=scoring, cv=ShuffleSplit(n_splits=5, random_state=42))
-        df_cv_linreg = pd.DataFrame(scores)
+        self.df_cv_linreg = pd.DataFrame(scores)
+        print(self.df_cv_linreg)
         print('Результаты Кросс-валидации')
         print('\n')
-        print(df_cv_linreg.mean()[2:])
+        print(self.df_cv_linreg.mean()[2:])
         print('\n')
 
     def val_validation(self, y_predict):
         self.lin_reg.fit(self.x_train_, self.y_train_)
-
+        ms = mse(self.y_val, y_predict)
+        rm = mse(self.y_val, y_predict, squared=False)
+        r2 = r2_score(self.y_val, y_predict)
         print('Ошибка на валидационных данных')
-        print('MSE: %.1f' % mse(self.y_val, y_predict))
-        print('RMSE: %.1f' % mse(self.y_val, y_predict, squared=False))
-        print('R2 : %.4f' % r2_score(self.y_val, y_predict))
+        print('MSE: %.1f' % ms)
+        print('RMSE: %.1f' % rm)
+        print('R2 : %.4f' % r2)
 
     def get_regularization(self, y_predict):
         alpha = 0.01
         model = Ridge(alpha=alpha, max_iter=10000)
         model.fit(self.x_train_, self.y_train_)
-
+        self.ms = mse(self.y_val, y_predict)
+        self.rm = mse(self.y_val, y_predict, squared=False)
+        self.r2 = r2_score(self.y_val, y_predict)
         print('Ошибка на валидационных данных после регуляризации')
-        print('MSE: %.1f' % mse(self.y_val, y_predict))
-        print('RMSE: %.1f' % mse(self.y_val, y_predict, squared=False))
-        print('R2 : %.4f' % r2_score(self.y_val, y_predict))
+        print('MSE: %.1f' % self.ms)
+        print('RMSE: %.1f' % self.rm)
+        print('R2 : %.4f' % self.r2)
         self.save_pred()
 
     def save_pred(self):
@@ -123,14 +131,15 @@ class ModelLR:
         print('all')
 
 
-ModelLR().data_modification()
+if __name__ == '__main__':
+    ModelLR().data_modification()
 
 # parser = argparse.ArgumentParser(description='ModelLReg')
 #
-# parser.add_argument('--train', type=str, help="name/path (type=str) of the file with train dataset")
-# parser.add_argument('--test', type=str, help="name/path (type=str) of the file with test dataset")
-# parser.add_argument('--target', type=str, help="name/path (type=str) of the file with target dataset")
-# parser.add_argument('--sub', type=str, help="name/path (type=str) of the file with submission dataset")
+# parser.add_argument('--train', type=str, help='name/path (type=str) of the file with train dataset')
+# parser.add_argument('--test', type=str, help='name/path (type=str) of the file with test dataset')
+# parser.add_argument('--target', type=str, help='name/path (type=str) of the file with target dataset')
+# parser.add_argument('--sub', type=str, help='name/path (type=str) of the file with submission dataset')
 #
 # args = parser.parse_args()
 # model = ModelLR(args.train, args.test, args.target, args.sub).data_modification()
