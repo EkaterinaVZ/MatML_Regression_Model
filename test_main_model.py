@@ -34,16 +34,16 @@ class MyTestCase(unittest.TestCase):
 
     def test_cross_validation(self):
         self.assertTrue(
-                        np.array_equal(
-                                pd.DataFrame(self.model.df_cv_linreg.mean()[2:]).sort_index(
-                                        inplace = True
-                                                                   ),
-                        pd.DataFrame(
-                                ["0.327251", " -0.00710", "-0.046105", "-0.508162"],
-                                ["test_R2", "test_-MSE", "test_-MAE", "test_Max"],
-            ).sort_index(inplace=True),
-                    )
-                )
+            np.array_equal(
+                pd.DataFrame(self.model.df_cv_linreg.mean()[2:]).sort_index(
+                    inplace = True
+                ),
+                pd.DataFrame(
+                    ["0.327251", " -0.00710", "-0.046105", "-0.508162"],
+                    ["test_R2", "test_-MSE", "test_-MAE", "test_Max"],
+                ).sort_index(inplace=True),
+            )
+        )
 
     def test_get_regularization(self):
         self.assertEqual("%.1f" % self.model.ms, "0.1")

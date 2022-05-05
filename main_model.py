@@ -13,12 +13,12 @@ from sklearn.model_selection import train_test_split
 
 class ModelLR:
     def __init__(
-            self,
-            train="Train.csv",
-            test="Test.csv",
-            target="Target.csv",
-            sub="Submission.csv",
-            show_correlation=False,
+        self,
+        train="Train.csv",
+        test="Test.csv",
+        target="Target.csv",
+        sub="Submission.csv",
+        show_correlation=False,
     ):
 
         self.train = pd.read_csv(train, delimiter=",")
@@ -64,8 +64,8 @@ class ModelLR:
 
     def breakdown_data(self):
         self.count_columns()
-        train = self.df.iloc[0: self.train.shape[0], :]
-        test = self.df.iloc[self.train.shape[0]:, :]
+        train = self.df.iloc[0 : self.train.shape[0], :]
+        test = self.df.iloc[self.train.shape[0] :, :]
 
         x_train = train[self.num_columns].values
         self.x_test = test[self.num_columns].values
