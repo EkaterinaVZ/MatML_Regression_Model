@@ -17,8 +17,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(len(self.model.test), 122)
         self.assertEqual(len(self.model.target), 2318)
         self.assertEqual(len(self.model.sub_file), 122)
-        self.assertFalse('Unnamed: 0' in self.model.df.columns)
-        self.assertFalse('period' in self.model.df.columns)
+        self.assertFalse("Unnamed: 0" in self.model.df.columns)
+        self.assertFalse("period" in self.model.df.columns)
 
     def test_one_hot_coding(self):
         self.assertEqual(len(self.model.df.columns), 1543)
@@ -36,16 +36,16 @@ class MyTestCase(unittest.TestCase):
     def test_cross_validation(self):
         self.assertTrue(np.array_equal(
             pd.DataFrame(self.model.df_cv_linreg.mean()[2:]).sort_index(inplace=True),
-            pd.DataFrame(['0.327251', ' -0.00710', '-0.046105', '-0.508162'],
-                         ['test_R2', 'test_-MSE', 'test_-MAE', 'test_Max']).sort_index(inplace=True)))
+            pd.DataFrame(["0.327251", " -0.00710", "-0.046105", "-0.508162"],
+                         ["test_R2", "test_-MSE", "test_-MAE", "test_Max"]).sort_index(inplace=True)))
 
     def test_get_regularization(self):
-        self.assertEqual('%.1f' % self.model.ms, '0.2')
-        self.assertEqual('%.1f' % self.model.rm, '0.1')
-        self.assertEqual('%.4f' % self.model.r2, '0.4171')
+        self.assertEqual("%.1f" % self.model.ms, "0.2")
+        self.assertEqual("%.1f" % self.model.rm, "0.1")
+        self.assertEqual("%.4f" % self.model.r2, "0.4171")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
 # coverage run test_main_model.py
 # coverage report -m - процент покрытия тестами
